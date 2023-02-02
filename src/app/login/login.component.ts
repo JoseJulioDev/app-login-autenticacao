@@ -2,6 +2,7 @@ import { LoginService } from './login.service';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { Component} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent {
 
   isLoading = false;
 
-  constructor(private formBuilder: FormBuilder, private service: LoginService) { }
+  constructor(private formBuilder: FormBuilder, private service: LoginService, private router: Router) { }
 
   login(): void {
     const {email, password} = this.formGroup.controls;
@@ -28,8 +29,9 @@ export class LoginComponent {
 
     this.service.login(email.value, password.value).subscribe(
       () => {
-        this.formGroup.enable();
         this.isLoading = false;
+
+        this.router.navigate(['dashboard']);
       },
       erro => {
         this.formGroup.enable();
